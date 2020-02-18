@@ -1,5 +1,6 @@
 package com.db1group.standardapi.domain.person;
 
+import com.db1group.standardapi.application.person.PersonUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public class PersonService {
 
     public List<Person> findAll() {
         return repository.findAll();
+    }
+
+    public void update(PersonUpdateRequest request) {
+        var person = new PersonSet();
+        person.update(request);
     }
 
 }
