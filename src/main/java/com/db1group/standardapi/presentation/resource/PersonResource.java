@@ -3,12 +3,11 @@ package com.db1group.standardapi.presentation.resource;
 import com.db1group.standardapi.application.person.PersonApplication;
 import com.db1group.standardapi.application.person.PersonCreateRequest;
 import com.db1group.standardapi.application.person.PersonResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.db1group.standardapi.application.person.PersonUpdateNameRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class PersonResource {
@@ -27,5 +26,10 @@ public class PersonResource {
     @PostMapping("/api/people")
     public PersonResponse post(@RequestBody PersonCreateRequest request) {
         return application.create(request);
+    }
+
+    @PutMapping("/api/people/{id}")
+    public PersonResponse post(@PathVariable("id") UUID id, @RequestBody PersonUpdateNameRequest request) {
+        return application.update(id, request);
     }
 }

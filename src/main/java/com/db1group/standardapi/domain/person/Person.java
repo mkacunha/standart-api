@@ -4,8 +4,8 @@ import com.db1group.damagecontrol.rule.Rule;
 import com.db1group.standardapi.domain.state.State;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Entity
 public class Person {
@@ -23,21 +23,16 @@ public class Person {
     @JoinColumn(name = "state_id")
     private State state;
 
-    protected Person() {
-        // To JPA
-    }
-
     public static Person of(PersonCreateCommand command) {
-        Rule.check(command);
         var person = new Person();
-        person.name = command.getName();
-        person.document = command.getDocument();
-        person.state = command.getState();
+        person.setName(command.getName());
+        person.setDocument(command.getDocument());
+        person.setState(command.getState());
         return person;
     }
 
-    public void setDocument(@NotNull(message = "Documento é obrigatório") String document) {
-        this.document = document;
+    public void update(Consumer<Person> update) {
+        update.accept(this);
     }
 
     public UUID getId() {
@@ -48,11 +43,26 @@ public class Person {
         return name;
     }
 
+    public void setName(String name) {
+        Rule.isNotBlank(name, "Nome é obrigatório");
+        this.name = name;
+    }
+
     public String getDocument() {
         return document;
     }
 
+    public void setDocument(String document) {
+        Rule.isNotBlank(document, "Documento é obrigatório");
+        this.document = document;
+    }
+
     public State getState() {
         return state;
+    }
+
+    public void setState(State state) {
+        Rule.isNotNull(state, "Estado é obrigatório");
+        this.state = state;
     }
 }

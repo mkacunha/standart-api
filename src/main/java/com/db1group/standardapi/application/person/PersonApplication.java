@@ -3,11 +3,13 @@ package com.db1group.standardapi.application.person;
 import com.db1group.standardapi.domain.person.PersonService;
 import com.db1group.standardapi.domain.state.StateService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Component
+@Transactional
 public class PersonApplication {
 
     private final PersonService service;
@@ -22,15 +24,17 @@ public class PersonApplication {
         this.stateService = stateService;
     }
 
-    @Transactional
     public PersonResponse create(PersonCreateRequest request) {
-        var person = service.create(request);
+        var person = service.create(new PersonCreateRequestAdapter(stateService, request));
         return mapper.apply(person);
     }
 
-    @Transactional
     public List<PersonResponse> findAll() {
         return mapper.apply(service.findAll());
     }
 
+    public PersonResponse update(UUID id, PersonUpdateNameRequest request) {
+        var person = service.update(id, request);
+        return mapper.apply(person);
+    }
 }

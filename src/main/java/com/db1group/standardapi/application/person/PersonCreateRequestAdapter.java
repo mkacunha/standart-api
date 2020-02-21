@@ -4,13 +4,13 @@ import com.db1group.standardapi.domain.person.PersonCreateCommand;
 import com.db1group.standardapi.domain.state.State;
 import com.db1group.standardapi.domain.state.StateService;
 
-public class PersonCreateCommandAdapter implements PersonCreateCommand {
+public class PersonCreateRequestAdapter implements PersonCreateCommand {
 
     private final StateService stateService;
 
     private final PersonCreateRequest request;
 
-    public PersonCreateCommandAdapter(StateService stateService, PersonCreateRequest request) {
+    public PersonCreateRequestAdapter(StateService stateService, PersonCreateRequest request) {
         this.stateService = stateService;
         this.request = request;
     }
