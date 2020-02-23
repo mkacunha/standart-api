@@ -1,6 +1,7 @@
 package com.db1group.standardapi.application.state;
 
 import com.db1group.standardapi.domain.state.StateService;
+import com.db1group.standardapi.infrastructure.aspect.Banana;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class StateApplication {
         this.mapper = mapper;
     }
 
+    @Banana
     public StateResponse create(StateRequest command) {
         var state = service.create(command);
         return mapper.apply(state);
