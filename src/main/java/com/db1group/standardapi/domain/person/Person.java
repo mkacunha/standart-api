@@ -2,10 +2,10 @@ package com.db1group.standardapi.domain.person;
 
 import com.db1group.damagecontrol.rule.Rule;
 import com.db1group.standardapi.domain.state.State;
+import com.db1group.standardapi.infrastructure.Command;
 
 import javax.persistence.*;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @Entity
 public class Person {
@@ -31,8 +31,8 @@ public class Person {
         return person;
     }
 
-    public void update(Consumer<Person> update) {
-        update.accept(this);
+    public void execute(Command<Person> command) {
+        command.execute(this);
     }
 
     public UUID getId() {
