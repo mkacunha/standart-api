@@ -25,7 +25,7 @@ public class PersonApplication {
     }
 
     public PersonResponse create(PersonCreateRequest request) {
-        var person = service.create(new PersonCreateRequestAdapter(stateService, request));
+        var person = service.create(new PersonCreateRequestCommand(stateService, request));
         return mapper.apply(person);
     }
 

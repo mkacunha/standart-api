@@ -1,6 +1,7 @@
 package com.db1group.standardapi.domain.person;
 
 import com.db1group.damagecontrol.exception.NotFoundException;
+import com.db1group.standardapi.infrastructure.Command;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,9 +26,9 @@ public class PersonService {
         return repository.findAll();
     }
 
-    public Person update(UUID id, Consumer<Person> command) {
+    public Person update(UUID id, Command<Person> command) {
         var person = repository.findById(id).orElseThrow(() -> new NotFoundException("Pessoa não encontrada"));
-        person.update(command);
+        person.execute(command);
         return repository.save(person);
     }
 

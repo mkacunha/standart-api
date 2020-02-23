@@ -1,17 +1,11 @@
 package com.db1group.standardapi.application.person;
 
 import com.db1group.standardapi.domain.person.Person;
+import com.db1group.standardapi.infrastructure.Command;
 
-import java.util.function.Consumer;
-
-public class PersonUpdateNameRequest implements Consumer<Person> {
+public class PersonUpdateNameRequest implements Command<Person> {
 
     private String name;
-
-    @Override
-    public void accept(Person person) {
-        person.setName(this.name);
-    }
 
     public String getName() {
         return name;
@@ -19,5 +13,10 @@ public class PersonUpdateNameRequest implements Consumer<Person> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void execute(Person person) {
+        person.setName(this.name);
     }
 }

@@ -1,4 +1,6 @@
 package com.db1group.standardapi.infrastructure;
 
-public interface Command {
+public interface Command<T> {
+
+    void execute(T t);
 }
