@@ -16,7 +16,11 @@ public class BananaAspect {
         this.beanFactory = beanFactory;
     }
 
-    @Before("@annotation(com.db1group.standardapi.infrastructure.aspect.Banana)")
+    @Before("@annotation(org.springframework.web.bind.annotation.PostMapping)" +
+            " || @annotation(org.springframework.web.bind.annotation.GetMapping)" +
+            " || @annotation(org.springframework.web.bind.annotation.PutMapping)" +
+            " || @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
+            " || @annotation(org.springframework.web.bind.annotation.PatchMapping)")
     public void aplicarBanana(JoinPoint joinPoint) {
         for (Object object : joinPoint.getArgs()) {
             beanFactory.autowireBean(object);
