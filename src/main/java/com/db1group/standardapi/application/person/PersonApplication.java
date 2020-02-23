@@ -1,7 +1,7 @@
 package com.db1group.standardapi.application.person;
 
 import com.db1group.standardapi.domain.person.PersonService;
-import com.db1group.standardapi.domain.state.StateService;
+import com.db1group.standardapi.infrastructure.aspect.Banana;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,15 +15,13 @@ public class PersonApplication {
 
     private final PersonService service;
 
-    private final StateService stateService;
-
-    public PersonApplication(PersonService service, StateService stateService) {
+    public PersonApplication(PersonService service) {
         this.service = service;
-        this.stateService = stateService;
     }
 
+    @Banana
     public PersonResponse create(PersonCreateRequest request) {
-        var person = service.create(new PersonCreateRequestCommand(stateService, request));
+        var person = service.create(request);
         return new PersonResponse(person);
     }
 

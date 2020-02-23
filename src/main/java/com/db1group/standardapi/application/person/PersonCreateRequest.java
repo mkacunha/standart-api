@@ -1,8 +1,16 @@
 package com.db1group.standardapi.application.person;
 
+import com.db1group.standardapi.domain.person.PersonCreateCommand;
+import com.db1group.standardapi.domain.state.State;
+import com.db1group.standardapi.domain.state.StateService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.UUID;
 
-public class PersonCreateRequest {
+public class PersonCreateRequest implements PersonCreateCommand {
+
+    @Autowired
+    private StateService stateService;
 
     private String name;
 
@@ -20,6 +28,11 @@ public class PersonCreateRequest {
 
     public String getDocument() {
         return document;
+    }
+
+    @Override
+    public State getState() {
+        return stateService.findById(this.getStateId());
     }
 
     public void setDocument(String document) {
