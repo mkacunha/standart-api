@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -14,27 +15,24 @@ public class PersonApplication {
 
     private final PersonService service;
 
-    private final PersonMapper mapper;
-
     private final StateService stateService;
 
-    public PersonApplication(PersonService service, PersonMapper mapper, StateService stateService) {
+    public PersonApplication(PersonService service, StateService stateService) {
         this.service = service;
-        this.mapper = mapper;
         this.stateService = stateService;
     }
 
     public PersonResponse create(PersonCreateRequest request) {
         var person = service.create(new PersonCreateRequestCommand(stateService, request));
-        return mapper.apply(person);
+        return new PersonResponse(person);
     }
 
     public List<PersonResponse> findAll() {
-        return mapper.apply(service.findAll());
+        return service.findAll().stream().map(PersonResponse::new).collect(Collectors.toList());
     }
 
     public PersonResponse update(UUID id, PersonUpdateNameRequest request) {
         var person = service.update(id, request);
-        return mapper.apply(person);
+        return new PersonResponse(person);
     }
 }
